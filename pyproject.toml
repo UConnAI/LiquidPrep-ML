@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "liquidprep-ml"
+version = "0.1.0"
+description = "Machine Learning and Data Engineering For LiquidPrep"
+authors = ["Charitarth Chugh <37895518+charitarthchugh@users.noreply.github.com>"]
+license = "Apache 2.0"
+readme = "README.md"
+packages = [{include = "liquidprep_ml"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+jupyter = "^1.0.0"
+notebook = "^6.5.2"
+requests = "^2.28.1"
+
+[tool.poetry.group.dev.dependencies]
+black = {extras = ["jupyter"], version = "^22.10.0"}
+isort = "^5.10.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
