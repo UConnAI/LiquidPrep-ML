@@ -5,14 +5,15 @@ import json
 from concurrent.futures import ThreadPoolExecutor
 import time,os
 
-no_cpu = cpu_count()
 url1 = "https://api.synopticlabs.org/v2/stations/timeseries?stid=TWB{}&vars=precip_accum_fifteen_minute,precip_accum_five_minute,pressure,relative_humidity,soil_temp,soil_moisture,solar_radiation,air_temp,wind_direction,wind_gust,wind_speed&units=english&start=20{}01011200&end=20{}12311200&token=f626b8d4c80242d39ecceaa253c41aff"
-
 years = [["16", "17"], ["18", "19"], ["20", "21"], ["22", "22"]]
 
 class parseMeso:
 
 
+    ##
+    ## Get Stations from the API
+    ##
     def get_station_id(self,url:str):
         
         station_id_list = []
@@ -25,6 +26,9 @@ class parseMeso:
 
         return station_id_list
 
+    ##
+    ## NOT USED
+    ##
     def parse_data_products_mesonet(self,station):
 
         browser = mechanicalsoup.Browser()
@@ -66,13 +70,18 @@ class parseMeso:
     def multi_parse_mesonet(self):
 
         links = []
+        
         station_id_list = self.get_station_id('https://www.texmesonet.org/api/Stations')
-        for i in range(0,96):
-            id_val = str(i)
+        
+        for i in range(len(station_id_list)):
+            id_val = str(station_id_list[i])
             id_val = '0' + id_val if len(id_val) == 1 else id_val
             for year in years:
                 links.append([url1.format(id_val, year[0], year[1]),id_val,year[0],year[1]])
 
+        ##
+        ## Multi-threadin to improve performance.
+        ##
         with ThreadPoolExecutor(max_workers=20) as p:
             p.map(self.extract_links,links)
 
