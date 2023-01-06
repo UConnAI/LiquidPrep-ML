@@ -12,6 +12,7 @@ python = "^3.9"
 jupyter = "^1.0.0"
 notebook = "^6.5.2"
 requests = "^2.28.1"
+mechanicalsoup = "^1.2.0"
 
 [tool.poetry.group.dev.dependencies]
 black = {extras = ["jupyter"], version = "^22.10.0"}
